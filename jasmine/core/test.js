@@ -11,6 +11,22 @@ describe("Store a libraries in the librarySystem", function() {
         expect(librarySystem('app')).toBe('app');
     });
 
+    it("Number of times a Library has run should be one, for a library without dependencies", function() {
+
+        var numberOfTimesCallbackRun = 0;
+
+        librarySystem('app3', function() {
+          numberOfTimesCallbackRun++;
+          return 'app3';
+        });
+        librarySystem('app3');
+        librarySystem('app3');
+        librarySystem('app3');
+        librarySystem('app3');
+
+        expect(numberOfTimesCallbackRun).toBe(1);
+    });
+
     it("Should receive also an array as second parameter and keep working", function() {
 
         librarySystem('dependency', [], function() {
@@ -31,6 +47,30 @@ describe("Store a libraries in the librarySystem", function() {
         });
 
         expect(librarySystem('app2')).toBe('app with loaded dependency');
+    });
+
+    it("Number of times a Library has run should be one, for a library with dependencies", function() {
+
+        var numberOfTimesCallbackDependency2 = 0;
+        var numberOfTimesCallbackApp2 = 0;
+
+        librarySystem('dependency2', [], function() {
+            numberOfTimesCallbackDependency2++;
+            return 'loaded dependency';
+        });
+
+        librarySystem('app2', ['dependency2'], function(dependency2) {
+            numberOfTimesCallbackApp2++;
+            return 'app with ' + dependency2;
+        });
+
+        librarySystem('app2');
+        librarySystem('app2');
+        librarySystem('app2');
+        librarySystem('app2');
+
+        expect(numberOfTimesCallbackDependency2).toBe(1);
+        expect(numberOfTimesCallbackApp2).toBe(1);
     });
 
     it("Store reference to two or more libraries", function() {
