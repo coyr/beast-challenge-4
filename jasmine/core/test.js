@@ -4,7 +4,6 @@
 describe("Store a libraries in the librarySystem", function() {
 
     it("Should store a library", function() {
-        librarySystem('librarySystemClearAll');
 
         librarySystem('app', function() {
           return 'app';
@@ -13,8 +12,6 @@ describe("Store a libraries in the librarySystem", function() {
     });
 
     it("Should receive also an array as second parameter and keep working", function() {
-
-        librarySystem('librarySystemClearAll');
 
         librarySystem('dependency', [], function() {
           return 'loaded dependency';
@@ -25,22 +22,18 @@ describe("Store a libraries in the librarySystem", function() {
 
     it("Define a function with dependencies and use it in the args", function() {
 
-        librarySystem('librarySystemClearAll');
-
-        librarySystem('dependency', [], function() {
+        librarySystem('dependency2', [], function() {
           return 'loaded dependency';
         });
 
-        librarySystem('app', ['dependency'], function(dependency) {
-          return 'app with ' + dependency;
+        librarySystem('app2', ['dependency2'], function(dependency2) {
+          return 'app with ' + dependency2;
         });
 
-        expect(librarySystem('app')).toBe('app with loaded dependency');
+        expect(librarySystem('app2')).toBe('app with loaded dependency');
     });
 
     it("Store reference to two or more libraries", function() {
-
-        librarySystem('librarySystemClearAll');
 
         librarySystem('name', [], function() {
           return 'Gordon';
@@ -59,21 +52,19 @@ describe("Store a libraries in the librarySystem", function() {
 
     it("Store reference dependencies in any order", function() {
 
-        librarySystem('librarySystemClearAll');
-
-        librarySystem('workBlurb', ['name', 'company'], function(name, company) {
-          return name + ' works at ' + company;
+        librarySystem('workBlurb2', ['name2', 'company2'], function(name2, company2) {
+          return name2 + ' works at ' + company2;
         });
 
-        librarySystem('name', [], function() {
+        librarySystem('name2', [], function() {
           return 'Gordon';
         });
 
-        librarySystem('company', [], function() {
+        librarySystem('company2', [], function() {
           return 'Watch and Code';
         });
 
-        expect(librarySystem('workBlurb')).toBe('Gordon works at Watch and Code');
+        expect(librarySystem('workBlurb2')).toBe('Gordon works at Watch and Code');
     });
 
 });
