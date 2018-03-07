@@ -3,7 +3,7 @@
 
 describe("Store a libraries in the librarySystem", function() {
 
-    it("Should store a library", function() {
+    it("Should store a library with two arguments", function() {
 
         librarySystem('app', function() {
           return 'app';
