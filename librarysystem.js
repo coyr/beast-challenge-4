@@ -4,25 +4,11 @@
 
   // Store libraries in one property 'librarySystem' on the window element
   function librarySystem ( libraryName, dependencies, callback ) {
-
     // The library is going to be store
     if ( arguments.length > 1 ) {
-      //In the case  'dependencies' is a callback to be store
-      if ( typeof dependencies === 'function') {
-        libraryStorage[libraryName] = {
-          callback: dependencies,
-          dependencies: []
-        }
-      // The second argument is an array of dependencies and the callback is a callback
-      } else {
-        libraryStorage[libraryName] = {
-          callback: callback,
-          dependencies: dependencies
-        }
-      }
-    // The library is going to be call
+      libraryStorage[libraryName] = { callback, dependencies }
+     // The library is going to be call
     } else {
-
       // If there aren't dependencies then make the callback and store it
       if ( libraryStorage[libraryName].dependencies.length === 0 )  {
         // Run the callback only once 
@@ -31,17 +17,16 @@
         } else {
           return libraryStorage[libraryName].ranCallback = libraryStorage[libraryName].callback();
         }
-
       // If there are dependencies, run the dependencies an pass them as arguments
       } else {
         var args = libraryStorage[libraryName].dependencies.map(function mapper(library) {
-            if ( !libraryStorage[library].ranCallback === false ) {
+          if ( !libraryStorage[library].ranCallback === false ) {
               return libraryStorage[library].ranCallback;
             } else {
               return libraryStorage[library].ranCallback = libraryStorage[library].callback();
             }
-          });
-
+        });
+        
         if ( !libraryStorage[libraryName].ranCallback === false ) {
           return libraryStorage[libraryName].ranCallback;
         } else {
@@ -49,8 +34,8 @@
         }
       }
     }
-  }
-  window.librarySystem = librarySystem;
+}
+window.librarySystem = librarySystem;
 
 })();
 
@@ -62,16 +47,6 @@
 
 //-------------------------------
 // Case 1
-
-librarySystem('app', function() {
-  return 'app';
-});
-
-console.log(librarySystem('app'));  // 'app'  
-
-
-//-------------------------------
-// Case 2
 
 librarySystem('name', [], function() {
   return 'Gordon';
@@ -88,7 +63,7 @@ librarySystem('workBlurb', ['name', 'company'], function(name, company) {
 librarySystem('workBlurb'); // 'Gordon works at Watch and Code'
 
 //-------------------------------
-// Case 3
+// Case 2
 
 librarySystem('dependency', [], function() {
   return 'loaded dependency';
@@ -101,7 +76,7 @@ librarySystem('library', ['dependency'], function(dependency) {
 librarySystem('library'); // 'apps with loaded dependency'
 
 //-------------------------------
-// Case 4
+// Case 3
 
 librarySystem('workResume', ['teacher', 'institution'], function(teacher, institution) {
   return teacher + ' works at ' + institution;

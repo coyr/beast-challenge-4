@@ -3,29 +3,29 @@
 
 describe("Store a libraries in the librarySystem", function() {
 
-    it("Should store a library with two arguments", function() {
+    // it("Should store a library with two arguments", function() {
 
-        librarySystem('app', function() {
-          return 'app';
-        });
-        expect(librarySystem('app')).toBe('app');
-    });
+    //     librarySystem('app', function() {
+    //       return 'app';
+    //     });
+    //     expect(librarySystem('app')).toBe('app');
+    // });
 
-    it("Number of times a Library has run should be one, for a library without dependencies", function() {
+    // it("Number of times a Library has run should be one, for a library without dependencies", function() {
 
-        var numberOfTimesCallbackRun = 0;
+    //     var numberOfTimesCallbackRun = 0;
 
-        librarySystem('app3', function() {
-          numberOfTimesCallbackRun++;
-          return 'app3';
-        });
-        librarySystem('app3');
-        librarySystem('app3');
-        librarySystem('app3');
-        librarySystem('app3');
+    //     librarySystem('app3', function() {
+    //       numberOfTimesCallbackRun++;
+    //       return 'app3';
+    //     });
+    //     librarySystem('app3');
+    //     librarySystem('app3');
+    //     librarySystem('app3');
+    //     librarySystem('app3');
 
-        expect(numberOfTimesCallbackRun).toBe(1);
-    });
+    //     expect(numberOfTimesCallbackRun).toBe(1);
+    // });
 
     it("Should receive also an array as second parameter and keep working", function() {
 
